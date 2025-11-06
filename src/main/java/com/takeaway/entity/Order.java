@@ -4,6 +4,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -31,23 +32,23 @@ public class Order {
     private String phone;
     
     @Column(name = "create_time")
-    private LocalDateTime createTime;
+    private Date createTime;
     
     @Column(name = "update_time")
-    private LocalDateTime updateTime;
+    private Date updateTime;
     
     @Transient
     private List<OrderItem> items;
     
     @PrePersist
     protected void onCreate() {
-        createTime = LocalDateTime.now();
-        updateTime = LocalDateTime.now();
+        createTime = new Date();
+        updateTime = new Date();
     }
     
     @PreUpdate
     protected void onUpdate() {
-        updateTime = LocalDateTime.now();
+        updateTime = new Date();
     }
 }
 

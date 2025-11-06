@@ -4,6 +4,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "foods")
@@ -30,11 +31,11 @@ public class Food {
     private Integer stock;
     
     @Column(name = "create_time")
-    private LocalDateTime createTime;
+    private Date createTime;
     
     @PrePersist
     protected void onCreate() {
-        createTime = LocalDateTime.now();
+        createTime = new Date();
     }
 }
 

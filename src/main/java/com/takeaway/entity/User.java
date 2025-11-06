@@ -3,6 +3,7 @@ package com.takeaway.entity;
 import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "users")
@@ -23,11 +24,11 @@ public class User {
     private String address;
     
     @Column(name = "create_time")
-    private LocalDateTime createTime;
+    private Date createTime;
     
     @PrePersist
     protected void onCreate() {
-        createTime = LocalDateTime.now();
+        createTime = new Date();
     }
 }
 
