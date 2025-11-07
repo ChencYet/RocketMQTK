@@ -2,6 +2,9 @@ package com.takeaway.controller;
 
 import com.takeaway.entity.User;
 import com.takeaway.service.UserService;
+import com.takeaway.util.JwtUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
+@Tag(name = "用户接口", description = "用户注册、登录及信息获取接口")
 public class UserController {
     
     @Autowired
@@ -33,15 +37,19 @@ public class UserController {
     }
     
     @PostMapping("/login")
+    @Operation(summary = "用户登录", description = "用户登录接口，返回JWT token")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> params) {
         Map<String, Object> result = new HashMap<>();
         try {
             String username = params.get("username");
             String password = params.get("password");
             User user = userService.login(username, password);
+            // 生成jwt
+            String token = JwtUtil.generateToken(username);
             result.put("code", 200);
             result.put("message", "登录成功");
             result.put("data", user);
+            result.put("token", token);
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             result.put("code", 500);
