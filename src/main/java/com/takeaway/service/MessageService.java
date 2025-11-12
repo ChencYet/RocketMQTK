@@ -50,6 +50,12 @@ public class MessageService {
         return messageRepository.findByFromUserIdAndToUserIdOrFromUserIdAndToUserIdOrderByCreateTimeDesc(
                 userA, userB, userB, userA);
     }
+
+    public void sendMessage(String topic, String message) {
+
+        rocketMQTemplate.convertAndSend(topic, message);
+
+    }
 }
 
 

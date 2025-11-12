@@ -1,8 +1,9 @@
 package com.takeaway.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
-import javax.persistence.*;
-import java.time.LocalDateTime;
+
 import java.util.Date;
 
 @Entity
@@ -25,7 +26,10 @@ public class User {
     
     @Column(name = "create_time")
     private Date createTime;
-    
+
+    @Column(name = "update_time")
+    private Date updateTime;
+
     @PrePersist
     protected void onCreate() {
         createTime = new Date();

@@ -3,6 +3,8 @@ package com.takeaway.controller;
 import com.takeaway.entity.Order;
 import com.takeaway.entity.OrderItem;
 import com.takeaway.service.OrderService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +13,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name = "订单管理")
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/takeaway/order")
 public class OrderController {
     
     @Autowired
     private OrderService orderService;
     
     @PostMapping("/create")
+    @Operation(summary = "创建订单")
     public ResponseEntity<Map<String, Object>> createOrder(@RequestBody Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();
         try {
@@ -51,6 +55,7 @@ public class OrderController {
     }
     
     @GetMapping("/user/{userId}")
+    @Operation(summary = "根据用户ID获取订单列表")
     public ResponseEntity<Map<String, Object>> getOrdersByUserId(@PathVariable Long userId) {
         Map<String, Object> result = new HashMap<>();
         List<Order> orders = orderService.getOrdersByUserId(userId);
@@ -61,6 +66,7 @@ public class OrderController {
     }
     
     @GetMapping("/{orderNo}")
+    @Operation(summary = "根据订单号获取订单详情")
     public ResponseEntity<Map<String, Object>> getOrderByOrderNo(@PathVariable String orderNo) {
         Map<String, Object> result = new HashMap<>();
         Order order = orderService.getOrderByOrderNo(orderNo);
@@ -76,6 +82,7 @@ public class OrderController {
     }
     
     @PutMapping("/{orderId}/status")
+    @Operation(summary = "更新订单状态")
     public ResponseEntity<Map<String, Object>> updateOrderStatus(
             @PathVariable Long orderId, 
             @RequestBody Map<String, String> params) {

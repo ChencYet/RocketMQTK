@@ -20,7 +20,7 @@ public class RedisConfig {
         template.setKeySerializer(stringSerializer);
         template.setHashKeySerializer(stringSerializer);
         
-        // 使用JSON序列化器
+        // 使用JSON序列化器，更好地处理类型信息
         GenericJackson2JsonRedisSerializer jsonSerializer = new GenericJackson2JsonRedisSerializer();
         template.setValueSerializer(jsonSerializer);
         template.setHashValueSerializer(jsonSerializer);
@@ -29,5 +29,3 @@ public class RedisConfig {
         return template;
     }
 }
-
-

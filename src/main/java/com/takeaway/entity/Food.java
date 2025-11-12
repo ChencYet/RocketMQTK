@@ -1,9 +1,9 @@
 package com.takeaway.entity;
 
+import jakarta.persistence.*;
 import lombok.Data;
-import javax.persistence.*;
+
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity

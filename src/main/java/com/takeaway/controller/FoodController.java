@@ -2,6 +2,8 @@ package com.takeaway.controller;
 
 import com.takeaway.entity.Food;
 import com.takeaway.service.FoodService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,14 +12,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name = "食品管理")
 @RestController
-@RequestMapping("/food")
+@RequestMapping("/takeaway/food")
 public class FoodController {
     
     @Autowired
     private FoodService foodService;
     
     @GetMapping("/list")
+    @Operation(summary = "获取所有食品列表")
     public ResponseEntity<Map<String, Object>> getAllFoods() {
         Map<String, Object> result = new HashMap<>();
         List<Food> foods = foodService.getAllFoods();
@@ -28,6 +32,7 @@ public class FoodController {
     }
     
     @GetMapping("/{id}")
+    @Operation(summary = "根据ID获取食品详情")
     public ResponseEntity<Map<String, Object>> getFoodById(@PathVariable Long id) {
         Map<String, Object> result = new HashMap<>();
         Food food = foodService.getFoodById(id);
@@ -43,6 +48,7 @@ public class FoodController {
     }
     
     @GetMapping("/category/{categoryId}")
+    @Operation(summary = "根据分类获取食品列表")
     public ResponseEntity<Map<String, Object>> getFoodsByCategory(@PathVariable Long categoryId) {
         Map<String, Object> result = new HashMap<>();
         List<Food> foods = foodService.getFoodsByCategory(categoryId);
@@ -53,6 +59,7 @@ public class FoodController {
     }
     
     @PostMapping("/save")
+    @Operation(summary = "保存食品信息")
     public ResponseEntity<Map<String, Object>> saveFood(@RequestBody Food food) {
         Map<String, Object> result = new HashMap<>();
         Food saved = foodService.saveFood(food);

@@ -4,6 +4,9 @@ server:
     context-path: /api
 
 spring:
+  jackson:
+    date-format: "yyyy-MM-dd HH:mm:ss"
+    time-zone: Asia/Shanghai
   application:
     name: takeaway-backend
   
@@ -23,23 +26,26 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
+        session_facatory:
+          statement_inspecter: com.takeaway.intercepter.JpaSqlIntercepter
   
   # Redis配置
-  redis:
-    host: 192.168.91.128
-    port: 6379
-    password: root
-    database: 0
-    timeout: 3000ms
-    lettuce:
-      pool:
-        max-active: 8
-        max-idle: 8
-        min-idle: 0
+  data:
+    redis:
+      database: 9
+      host: 192.168.7.62
+      port: 6379
+      password: root
+      timeout: 3000ms
+      letture:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
 
 # RocketMQ配置
 rocketmq:
-  name-server: 192.168.91.128:9876
+  name-server: 192.168.7.62:9876
   producer:
     group: takeaway-producer-group
     send-message-timeout: 3000
@@ -54,4 +60,30 @@ logging:
     root: INFO
     com.takeaway: DEBUG
 
+# springdoc配置
+springdoc:
+  webjars:
+    # 访问前缀
+    prefix:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+  knife4j:
+    enable: true
+    production: false
+    basic:
+      enable: false
+      username: mangrove
+      password: 123456
+    setting:
+      swagger-model-name: 实体类列表
+  default-flat-param-object: true
+  packages-to-scan: com.takeaway.controller
 
+# JWT配置
+jwt:
+  secret: c2VjcmV0LWtleS1mb3Itand0LXRva2VuLWp3dC1zZWNyZXQtc2lnbmluZy1rZXkK # base64编码的密钥
+  expiration: 86400000 # 1天(毫秒)

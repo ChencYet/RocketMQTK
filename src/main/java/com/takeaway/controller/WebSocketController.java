@@ -21,7 +21,7 @@ public class WebSocketController {
      */
     @MessageMapping("/chat")
 //    @SendTo("/topic/messages")
-    @SendTo("/queue/message/2")
+    @SendToUser("/queue/message")
     public Map<String, Object> handleChatMessage(Map<String, Object> message) {
         Map<String, Object> response = new HashMap<>();
         response.put("type", "CHAT_RESPONSE");

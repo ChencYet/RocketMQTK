@@ -2,6 +2,7 @@ package com.takeaway.service;
 
 import com.takeaway.entity.Food;
 import com.takeaway.repository.FoodRepository;
+import com.takeaway.util.SnowflakeIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -59,6 +60,15 @@ public class FoodService {
         redisTemplate.delete(FOOD_LIST_CACHE);
         return saved;
     }
+
+    // 测试生成雪花算法id
+    public static void main(String[] args) {
+
+        SnowflakeIdGenerator idGenerator = new SnowflakeIdGenerator(1, 1);
+        System.out.println("Generated ID: " + idGenerator.nextId());
+
+    }
+
 }
 
 

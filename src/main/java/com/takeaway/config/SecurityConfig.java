@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -32,7 +31,6 @@ public class SecurityConfig  {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
-
     // 创建AuthenticationManager bean 用于身份验证
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -40,14 +38,18 @@ public class SecurityConfig  {
     }
 
     @Bean
-    protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
-                // 考虑context-path为/api的情况，允许访问所有Swagger相关路径
-                .antMatchers("/user/login", "/user/register", "/doc.html", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**", "/api/doc.html", "/api/swagger-ui/**", "/api/v3/api-docs/**").permitAll() 
-                .anyRequest().authenticated() // 其他接口需要认证
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 禁用会话
+    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+        http.csrf().disable().authorizeHttpRequests(auth -> auth
+                // 1. 业务放行
+                .requestMatchers("/takeaway/user/login","/takeaway/user/register").permitAll()
+                // 2. 接口文档 HTML/静态资源
+                .requestMatchers("/doc.html","/swagger-ui/**","/knife4j/**").permitAll()
+                // 3. 关键：OpenAPI JSON 源
+                .requestMatchers("/v3/api-docs","/v3/api-docs/**","/swagger-resources/**","/webjars/**").permitAll()
+                // 4. 其他请求都需要认证
+                .requestMatchers("/api/ws", "/api/ws/**").permitAll()
+                .anyRequest().authenticated()
+        ).sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 禁用会话
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
