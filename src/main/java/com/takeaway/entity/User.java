@@ -23,7 +23,10 @@ public class User {
     private String phone;
     
     private String address;
-    
+
+    @Column(name = "del")
+    private int del;
+
     @Column(name = "create_time")
     private Date createTime;
 

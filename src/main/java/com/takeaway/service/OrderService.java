@@ -3,6 +3,7 @@ package com.takeaway.service;
 import com.takeaway.entity.Order;
 import com.takeaway.entity.OrderItem;
 import com.takeaway.entity.Food;
+import com.takeaway.enums.UserType;
 import com.takeaway.repository.OrderRepository;
 import com.takeaway.repository.OrderItemRepository;
 import com.takeaway.repository.FoodRepository;
@@ -97,6 +98,12 @@ public class OrderService {
                 .orElseThrow(() -> new RuntimeException("订单不存在"));
         order.setStatus(status);
         return orderRepository.save(order);
+    }
+
+    public static void main(String[] args) {
+
+        System.out.println("usertype value = " + UserType.ADMIN.ordinal());
+
     }
 }
 

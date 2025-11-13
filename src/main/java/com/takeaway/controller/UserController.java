@@ -117,7 +117,6 @@ public class UserController {
     @PostMapping("/page")
     @Operation(summary = "分页查询用户", description = "根据分页参数查询用户列表")
     public ResponseEntity<UserPageResponse<User>> getUsersByPage(@RequestBody UserPageRequest pageRequest) {
-        Map<String, Object> result = new HashMap<>();
         try {
             if (0 < 1) {
                 throw new CustomException("模拟异常测试");

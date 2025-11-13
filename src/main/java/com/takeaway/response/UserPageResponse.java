@@ -50,7 +50,7 @@ public class UserPageResponse<T> implements Serializable {
         return new UserPageResponse<>(HttpStatus.OK.value(), "查询成功", data, Long.valueOf(data.size()));
     }
 
-    public static <T> UserPageResponse error() {
+    public static UserPageResponse error() {
         return new UserPageResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "查询失败", List.of(), 0L);
     }
 }
